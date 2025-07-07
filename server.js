@@ -1,20 +1,21 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
+const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
-app.use(bodyParser.json());
 app.use(express.static(__dirname));
+app.use(express.json());
 
-app.post('/api/joke', async (req, res) => {
+app.post('/api/joke', (req, res) => {
   const { job, age, mood } = req.body;
-  // Dummy joke for MVP
-  const joke = `Here's a joke for a ${age}-year-old ${job} who's feeling ${mood}: Why don't programmers like nature? It has too many bugs!`;
+  const joke = `Here's a joke for a ${age}-year-old ${job} who's feeling ${mood}: Why don't scientists trust atoms? Because they make up everything!`;
   res.json({ joke });
 });
 
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(\`FunnyAI server running on port \${PORT}\`);
 });
